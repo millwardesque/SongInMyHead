@@ -137,10 +137,12 @@ function audio_crop_cropper_form_submit($form, $form_state) {
     $file = str_replace('!', '\!', $file);
     $file = str_replace('"', '\"', $file);
 
-    $destination = $file . '.audiocroptmp.mp3';
+    $filetype = strrchr($file, '.');
+    $destination = $file . '.audiocroptmp' . $filetype;
     
     $sox_path = '/opt/local/bin/';
     $command = $sox_path . 'sox "' . $file . '" "' . $destination . '" trim ' . $start . ' ' . $duration;
+    dpm($command);
 
     // Trim the audio file
     $output = array();
