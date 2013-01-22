@@ -10,6 +10,15 @@
 function audio_snippet_user_default_permissions() {
   $permissions = array();
 
+  // Exported permission: administer audio cropping.
+  $permissions['administer audio cropping'] = array(
+    'name' => 'administer audio cropping',
+    'roles' => array(
+      0 => 'administrator',
+    ),
+    'module' => 'audio_crop',
+  );
+
   // Exported permission: create audio_snippet content.
   $permissions['create audio_snippet content'] = array(
     'name' => 'create audio_snippet content',

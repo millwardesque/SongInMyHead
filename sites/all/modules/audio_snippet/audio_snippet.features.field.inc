@@ -10,6 +10,69 @@
 function audio_snippet_field_default_fields() {
   $fields = array();
 
+  // Exported field: 'comment-comment_node_audio_snippet-comment_body'.
+  $fields['comment-comment_node_audio_snippet-comment_body'] = array(
+    'field_config' => array(
+      'active' => '1',
+      'cardinality' => '1',
+      'deleted' => '0',
+      'entity_types' => array(
+        0 => 'comment',
+      ),
+      'field_name' => 'comment_body',
+      'foreign keys' => array(
+        'format' => array(
+          'columns' => array(
+            'format' => 'format',
+          ),
+          'table' => 'filter_format',
+        ),
+      ),
+      'indexes' => array(
+        'format' => array(
+          0 => 'format',
+        ),
+      ),
+      'locked' => '0',
+      'module' => 'text',
+      'settings' => array(),
+      'translatable' => '0',
+      'type' => 'text_long',
+    ),
+    'field_instance' => array(
+      'bundle' => 'comment_node_audio_snippet',
+      'default_value' => NULL,
+      'deleted' => '0',
+      'description' => '',
+      'display' => array(
+        'default' => array(
+          'label' => 'hidden',
+          'module' => 'text',
+          'settings' => array(),
+          'type' => 'text_default',
+          'weight' => '0',
+        ),
+      ),
+      'entity_type' => 'comment',
+      'field_name' => 'comment_body',
+      'label' => 'Comment',
+      'required' => 1,
+      'settings' => array(
+        'text_processing' => '0',
+        'user_register_form' => FALSE,
+      ),
+      'widget' => array(
+        'active' => 1,
+        'module' => 'text',
+        'settings' => array(
+          'rows' => '5',
+        ),
+        'type' => 'text_textarea',
+        'weight' => 0,
+      ),
+    ),
+  );
+
   // Exported field: 'node-audio_snippet-body'.
   $fields['node-audio_snippet-body'] = array(
     'field_config' => array(
@@ -85,7 +148,7 @@ function audio_snippet_field_default_fields() {
   $fields['node-audio_snippet-field_audio_snippet'] = array(
     'field_config' => array(
       'active' => '1',
-      'cardinality' => '1',
+      'cardinality' => '-1',
       'deleted' => '0',
       'entity_types' => array(),
       'field_name' => 'field_audio_snippet',
@@ -118,7 +181,7 @@ function audio_snippet_field_default_fields() {
       'description' => '',
       'display' => array(
         'default' => array(
-          'label' => 'above',
+          'label' => 'hidden',
           'module' => 'html5_media',
           'settings' => array(
             'autoplay' => 0,
@@ -126,7 +189,7 @@ function audio_snippet_field_default_fields() {
             'height' => '100px',
             'loop' => 0,
             'preload' => 1,
-            'sources' => 0,
+            'sources' => 1,
             'template' => 'jqueryui',
             'volume' => '80',
             'width' => '100%',
@@ -135,12 +198,20 @@ function audio_snippet_field_default_fields() {
           'weight' => '0',
         ),
         'teaser' => array(
-          'label' => 'above',
-          'module' => 'file_entity',
+          'label' => 'hidden',
+          'module' => 'html5_media',
           'settings' => array(
-            'file_view_mode' => 'default',
+            'autoplay' => 0,
+            'debug' => 0,
+            'height' => '400px',
+            'loop' => 0,
+            'preload' => 1,
+            'sources' => 0,
+            'template' => 'jqueryui',
+            'volume' => '80',
+            'width' => '100%',
           ),
-          'type' => 'file_rendered',
+          'type' => 'html5_player',
           'weight' => '0',
         ),
       ),
@@ -167,10 +238,80 @@ function audio_snippet_field_default_fields() {
     ),
   );
 
+  // Exported field: 'node-audio_snippet-field_audio_snippet_cropped'.
+  $fields['node-audio_snippet-field_audio_snippet_cropped'] = array(
+    'field_config' => array(
+      'active' => '1',
+      'cardinality' => '1',
+      'deleted' => '0',
+      'entity_types' => array(),
+      'field_name' => 'field_audio_snippet_cropped',
+      'foreign keys' => array(),
+      'indexes' => array(
+        'value' => array(
+          0 => 'value',
+        ),
+      ),
+      'locked' => '0',
+      'module' => 'list',
+      'settings' => array(
+        'allowed_values' => array(
+          0 => '0',
+          1 => '1',
+        ),
+        'allowed_values_function' => '',
+      ),
+      'translatable' => '0',
+      'type' => 'list_boolean',
+    ),
+    'field_instance' => array(
+      'bundle' => 'audio_snippet',
+      'default_value' => array(
+        0 => array(
+          'value' => 0,
+        ),
+      ),
+      'deleted' => '0',
+      'description' => '',
+      'display' => array(
+        'default' => array(
+          'label' => 'inline',
+          'settings' => array(),
+          'type' => 'hidden',
+          'weight' => '2',
+        ),
+        'teaser' => array(
+          'label' => 'above',
+          'settings' => array(),
+          'type' => 'hidden',
+          'weight' => '0',
+        ),
+      ),
+      'entity_type' => 'node',
+      'field_name' => 'field_audio_snippet_cropped',
+      'label' => 'Is Cropped',
+      'required' => 0,
+      'settings' => array(
+        'user_register_form' => FALSE,
+      ),
+      'widget' => array(
+        'active' => 1,
+        'module' => 'options',
+        'settings' => array(
+          'display_label' => 1,
+        ),
+        'type' => 'options_onoff',
+        'weight' => '3',
+      ),
+    ),
+  );
+
   // Translatables
   // Included for use with string extractors like potx.
   t('Audio snippet');
+  t('Comment');
   t('Description');
+  t('Is Cropped');
   t('What makes you love this clip so much?');
 
   return $fields;
