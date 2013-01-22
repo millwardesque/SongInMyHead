@@ -1,0 +1,22 @@
+<?php
+
+/**
+ * @file
+ * Module routines for the service-links / Tumblr integration
+ */
+
+/**
+ * Implements hook_service_links().
+ */
+function service_links_tumblr_service_links() {
+  $links = array();
+
+  $links['tumblr'] = array(
+    'name' => 'Tumblr',
+    'description' => t('Share on Tumblr'),
+    'link' => 'http://www.tumblr.com/share/link?url=<encoded-url>&name=<encoded-title>&description=<encoded-teaser>',
+    'icon' => drupal_get_path('module', 'service_links_tumblr') . '/images/share_4.png',
+  );
+
+  return $links;
+}

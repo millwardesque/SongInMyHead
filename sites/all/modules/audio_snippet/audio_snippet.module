@@ -1,0 +1,250 @@
+<?php
+/**
+ * @file
+ * Code for the Audio Snippet feature.
+ */
+
+include_once 'audio_snippet.features.inc';
+
+define('AUDIO_SNIPPET_DEFAULT_TITLE', '<Untitled audio snippet>');
+define('AUDIO_SNIPPET_DEFAULT_ARTIST', '<Unknown artist>');
+
+/**
+ * Implements hook_men().
+ */
+function audio_snippet_menu() {
+  $items = array();
+
+  $items['audio_snippet/create'] = array(
+    'title' => 'Create audio snippet',
+    'access arguments' => array('create audio_snippet content'),
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('audio_snippet_create_form'),
+    'type' => MENU_CALLBACK,
+  );
+
+  return $items;
+}
+
+/**
+ * Implements hook_node_view().
+ */
+function audio_snippet_node_view($node, $view_mode, $langcode) {
+  global $user;
+
+  if ($node->type == "audio_snippet"   && $view_mode == "full") {
+    // Prevent browser from caching the page.
+    drupal_add_http_header('Cache-Control', 'no-cache, must-revalidate, no-store');
+    drupal_add_http_header('Expires', '-1');
+    
+    // Prevent access to audio-snippet nodes via the raw node/nid URL
+    if (!in_array('administrator', $user->roles) && current_path() == request_path()) {
+      drupal_not_found();
+      drupal_exit();
+    }
+  }
+}
+
+/**
+ * Creation form for the audio-snippet.
+ */
+function audio_snippet_create_form($form, &$form_state, $node = null) {
+  $form = array();
+
+  $has_uploaded_file = !empty($form_state['values']['audio_file']);
+
+  $form['audio_snippet_container'] = array(
+    '#type' => 'container',
+    '#prefix' => '<div id="audio-snippet-container">',
+    '#suffix' => '</div>',
+  );
+
+  $form['audio_snippet_container']['audio_file'] = array(
+    '#type' => 'managed_file',
+    '#title' => 'Audio file',
+    '#upload_validators' => array("file_validate_extensions" => array("mp3")),
+    '#upload_location' => 'public://audio_snippets/', 
+    '#required' => TRUE,
+  );
+
+  $form['submit'] = array(
+    '#type' => 'submit',
+    '#value' => t('Submit'),
+  );
+
+  return $form;
+}
+
+/**
+ * Submit handler for the audio-snippet creation form
+ */
+function audio_snippet_create_form_submit($form, &$form_state) {
+  global $user;
+  $form_values = $form_state['values'];
+  
+  // Create the node
+  $values = array(
+    'type' => 'audio_snippet',
+    'uid' => $user->uid,
+    'status' => 1,  // Published.
+    'comment' => 2, // Comments enabled.
+    'promote' => 0, // Not promoted to frontpage
+  );
+  $entity = entity_create('node', $values);
+  $ewrapper = entity_metadata_wrapper('node', $entity);
+
+  // Set the title
+  $ewrapper->title->set(AUDIO_SNIPPET_DEFAULT_TITLE);
+
+  // Set the body
+  $body_content = '';
+  $ewrapper->body->set(array('value' => $body_content));
+  $ewrapper->body->summary->set($body_content);
+
+  // Generate alternate formats for the file
+  $fids = audio_snippet_generate_alternate_formats($form_values['audio_file']);
+  $fids[] = $form_values['audio_file']; // Include the original file fid.
+
+  // Set the file ID
+  $field_langcode = field_language('node', $entity, 'field_audio_snippet');
+  foreach ($fids as $fid) {
+    $entity->field_audio_snippet[$field_langcode][] = array(
+      'fid' => $fid,
+      'display' => 1,
+      'description' => '',
+    );
+  }
+
+  // Update the node
+  $ewrapper->save(TRUE);
+  entity_save('node', $entity);
+
+  // Redirect to the node view page
+  $form_state['redirect'] = drupal_get_path_alias('node/' . $entity->nid);
+}
+
+/**
+ * Implements hook_form_FORM_ID_alter().
+ */
+function audio_snippet_form_audio_snippet_node_form_alter(&$form, &$form_state) {
+  // Hide the title.
+  $form['title']['#type'] = 'value';
+
+  // If there isn't a title set yet (e.g. we're adding a new node),
+  // set it to the default.
+  if (empty($form['title']['#value'])) {
+    $form['title']['#value'] = AUDIO_SNIPPET_DEFAULT_TITLE;
+  }
+}
+
+/**
+ * Implements hook_node_presave().
+ */
+function audio_snippet_node_presave($node) {
+  if ($node->type != 'audio_snippet') {
+    return;
+  }
+
+  // Process the audio files to extract their titles.
+  // Only the last file's title will be used for the node title.
+  $audio_fields = field_get_items('node', $node, 'field_audio_snippet');
+  foreach ($audio_fields as $audio_field) {
+    $file = file_load($audio_field['fid']);
+    if (!empty($file->uri)) {
+      $metadata_title = audio_snippet_build_node_title_from_metadata($file->uri);
+      $node->title = $metadata_title ? $metadata_title : AUDIO_SNIPPET_DEFAULT_TITLE;
+    }
+  }
+}
+
+/**
+ * Builds the title of a node from an audio file's metadata.
+ *
+ * @param $uri
+ *  The Drupal URI to the audio file.
+ *
+ * @return A string containing the suggested title of a node, or FALSE if none is recognized.
+ */
+function audio_snippet_build_node_title_from_metadata($uri) {
+  $title = FALSE; // The metadata's title.
+
+  if ($uri && getid3_load()) {
+    // Get the metadata info.
+    $file = drupal_realpath($uri);
+    $metadata = getid3_analyze($file);
+
+    // Build the title.
+    if (!empty($metadata['tags_html']['id3v2'])) {
+      $tags = $metadata['tags_html']['id3v2'];
+
+      $song_title = isset($tags['title']) ? reset($tags['title']) : AUDIO_SNIPPET_DEFAULT_TITLE;
+      $song_artist = isset($tags['artist']) ? reset($tags['artist']) : AUDIO_SNIPPET_DEFAULT_ARTIST;
+      $title = $song_artist . ' - ' . $song_title;
+    }
+    else if (!empty($metadata['tags_html']['id3v1'])) {
+      $tags = $metadata['tags_html']['id3v1'];
+
+      $song_title = isset($tags['title']) ? reset($tags['title']) : AUDIO_SNIPPET_DEFAULT_TITLE;
+      $song_artist = isset($tags['artist']) ? reset($tags['artist']) : AUDIO_SNIPPET_DEFAULT_ARTIST;
+      $title = $song_artist . ' - ' . $song_title;
+    }
+  }
+
+  return $title;
+}
+
+/**
+ * Generates audio files that are alternate formats.
+ *
+ * Used to make the necessary formats required for
+ * cross-browser. HTML5 compliancy.
+ *
+ * @param $fid
+ *  File ID of the master file
+ * 
+ * @return An array of the created file IDs if the necessary formats were generated. Empty if no files were generated.
+ */
+function audio_snippet_generate_alternate_formats($fid) {
+  $file_ids = array();
+  $file = file_load($fid);
+  
+  if (!empty($file->uri)) {
+    switch ($file->filemime) {
+      case 'audio/mpeg':
+        $ogg_suffix = '.alternate.ogg';
+        
+        // Clone the existing file.
+        $new_file = file_copy($file, $file->uri . $ogg_suffix, FILE_EXISTS_REPLACE);
+
+        // Convert the new file to OGG.
+        if ($new_file) {
+          $original_filename = drupal_realpath($file->uri);
+          $destination = drupal_realpath($new_file->uri);
+
+          $sox_path = '/opt/local/bin/';
+          $command = $sox_path . 'sox "' . $original_filename . '" "' . $destination . '"';
+          exec($command);
+
+          // @TODO Check for Sox error
+
+          // Resave the file
+          $ogg_file = file_get_contents($destination);
+          if (FALSE === $ogg_file) {
+            drupal_set_message(t("Failed reopening OGG file at !file.", array('!file' => $destination)), 'error');
+            break;
+          }
+          $saved_ogg_file = file_save_data($ogg_file, $new_file->uri, FILE_EXISTS_REPLACE);
+          if (FALSE === $saved_ogg_file) {
+            drupal_set_message(t("Failed resaving OGG file."), 'error');
+            break;
+          }
+          $file_ids[] = $saved_ogg_file->fid;
+        }
+
+        break;
+      default:
+        break;
+    }
+  }
+  return $file_ids;
+}

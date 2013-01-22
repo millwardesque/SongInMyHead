@@ -1,0 +1,5 @@
+name = Audio Crop
+description = Tool for cropping audio files
+core = 7.x
+dependencies[] = getid3
+configure = admin/config/audio_crop

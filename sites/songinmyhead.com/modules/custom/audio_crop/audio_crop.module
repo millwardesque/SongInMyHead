@@ -1,0 +1,171 @@
+<?php
+
+/**
+ * @file
+ * Module routines for the audio crop module
+ */
+
+/**
+ * Implements hook_menu().
+ */
+function audio_crop_menu() {
+  $items = array();
+
+  $items['admin/config/media/audio_crop'] = array(
+    'title' => 'Audio Cropper configuration',
+    'description' => 'Configuration for the audio cropper.',
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('audio_crop_configuration'),
+    'access arguments' => array('administer audio cropping'),
+    'file' => 'audio_crop.admin.inc',
+  );
+  return $items;
+}
+
+/**
+ * Implements hook_permission().
+ */
+function audio_crop_permission() {
+  $permissions = array();
+
+  $permissions['administer audio cropping'] = array(
+    'title' => t('Administer audio cropping'),
+  );
+
+  return $permissions;
+}
+
+/**
+ * Implements hook_node_view().
+ */
+function audio_crop_node_view($node, $view_mode, $langcode) {
+  if ($node->type == "audio_snippet" && $view_mode == "full") {
+
+    $is_cropped_field = field_get_items('node', $node, 'field_audio_snippet_cropped');
+    $is_cropped = reset($is_cropped_field);
+    $is_cropped = $is_cropped['value'] ? TRUE : FALSE;
+    
+    if (!$is_cropped) {
+      $node->content['audio_cropper_form'] = drupal_get_form('audio_crop_cropper_form', $node);
+    }
+  }
+}
+
+/**
+ * Form for audio cropping
+ */
+function audio_crop_cropper_form($form, $form_state, $node) {
+  $form = array();
+  $audio_fields = field_get_items('node', $node, 'field_audio_snippet');
+
+  if (count($audio_fields) && getid3_load()) {
+    // Get the filesystem path to the audio file
+    $primary_file = drupal_realpath($audio_fields[0]['uri']);
+    $metadata = getid3_analyze($primary_file);
+        
+    $form['node'] = array(
+      '#type' => 'value',
+      '#value' => $node,
+    );
+
+    $form['audio_fields'] = array(
+      '#type' => 'value',
+      '#value' => $audio_fields,
+    );
+
+    $form['wrapper'] = array(
+      '#type' => 'fieldset',
+      '#title' => t('Audio Cropper'),
+      '#collapsible' => TRUE,
+      '#collapsed' => FALSE,
+    );
+
+    // Include the range-slider
+    $form['wrapper']['cropper'] = array(
+      '#type' => 'markup',
+      '#markup' => '<div id="audio-cropper"></div>',
+    );
+    drupal_add_library('system', 'ui.slider');
+    drupal_add_js(drupal_get_path('module', 'audio_crop') . '/js/audio_crop.js');
+    drupal_add_js(array('audio_crop' => array('max_duration' => variable_get('audio_crop_max_duration', 0))), 'setting');
+
+    $form['wrapper']['start'] = array(
+      '#type' => 'textfield',
+      '#title' => t('Start'),
+      '#description' => t('The starting point of the snippet.'),
+      '#default_value' => !empty($form_state['values']['start']) ? $form_state['values']['start'] : 0,
+    );
+
+    $form['wrapper']['end'] = array(
+      '#type' => 'textfield',
+      '#title' => t('End'),
+      '#description' => t('The ending point of the snippet.'),
+      '#default_value' => !empty($form_state['values']['end']) ? $form_state['values']['end'] : $metadata['playtime_seconds'],
+    );
+
+    $form['wrapper']['crop-range'] = array(
+      '#type' => 'markup',
+      '#prefix' => '<div class="crop-range">',
+      '#markup' => '<span class="start-time">0:00</span> - <span class="end-time">0:00</span>',
+      '#suffix' => '</div>',
+    );
+
+    $form['wrapper']['crop'] = array(
+      '#type' => 'submit',
+      '#value' => t('Crop'),
+    );
+  }
+
+  return $form;
+}
+
+/**
+ * Submit handler for audio cropper form
+ */
+function audio_crop_cropper_form_submit($form, $form_state) {
+  $values = &$form_state['values'];
+
+  // Calculate the trim values
+  $start = trim($values['start']);
+  $end = trim($values['end']);
+  $duration = $end - $start;
+
+  // Trim the files
+  foreach ($values['audio_fields'] as $audio_field) {
+    // Extract the path to the file
+    $file = drupal_realpath($audio_field['uri']);
+    $file = str_replace('!', '\!', $file);
+    $file = str_replace('"', '\"', $file);
+
+    $destination = $file . '.audiocroptmp.mp3';
+    
+    $sox_path = '/opt/local/bin/';
+    $command = $sox_path . 'sox "' . $file . '" "' . $destination . '" trim ' . $start . ' ' . $duration;
+
+    // Trim the audio file
+    $output = array();
+    exec($command, $output);
+
+    // @ToDo Check for errors
+    
+    // Resave the file overtop of the original
+    $cropped_file = file_get_contents($destination);
+    if (FALSE === $cropped_file) {
+      drupal_set_message(t("Failed reopening cropped file at !file.", array('!file' => $destination)), 'error');
+      return;
+    }
+    if (FALSE === file_save_data($cropped_file, $audio_field['uri'], FILE_EXISTS_REPLACE)) {
+      drupal_set_message(t("Failed resaving cropped file at !file.", array('!file' => $audio_field['uri'])), 'error');
+      return;
+    }
+
+    // Clean up the temp file
+    @unlink($destination);
+  }
+
+  // Mark as cropped
+  $node = $form_state['values']['node'];
+  $ewrapper = entity_metadata_wrapper('node', $node);
+  $ewrapper->field_audio_snippet_cropped->set(1);
+  $ewrapper->save();
+}

@@ -1,0 +1,4 @@
+name = Service Links - Tumblr
+description = Basic integration between Service Links and Tumblr
+core = 7.x
+dependencies[] = service_links
