@@ -101,6 +101,12 @@ function audio_snippet_create_form_submit($form, &$form_state) {
   $ewrapper->body->set(array('value' => $body_content));
   $ewrapper->body->summary->set($body_content);
 
+  // Rename the file to remove any troublesome characters
+  $fid = $form_values['audio_file'];
+  $file = file_load($fid);
+  $clean_uri = str_replace(array("'", "!"), "_", $file->uri);
+  file_move($file, $clean_uri);
+
   // Generate alternate formats for the file
   $fids = audio_snippet_generate_alternate_formats($form_values['audio_file']);
   $fids[] = $form_values['audio_file']; // Include the original file fid.
@@ -218,11 +224,11 @@ function audio_snippet_generate_alternate_formats($fid) {
 
         // Convert the new file to OGG.
         if ($new_file) {
-          $original_filename = drupal_realpath($file->uri);
+          $original_filename = drupal_realpath($file->uri);          
           $destination = drupal_realpath($new_file->uri);
 
           $sox_path = '/opt/local/bin/';
-          $command = $sox_path . 'sox "' . $original_filename . '" "' . $destination . '"';
+          $command = $sox_path . "sox '" . $original_filename . "' '" . $destination . "'";
           exec($command);
 
           // @TODO Check for Sox error

@@ -134,15 +134,12 @@ function audio_crop_cropper_form_submit($form, $form_state) {
   foreach ($values['audio_fields'] as $audio_field) {
     // Extract the path to the file
     $file = drupal_realpath($audio_field['uri']);
-    $file = str_replace('!', '\!', $file);
-    $file = str_replace('"', '\"', $file);
 
     $filetype = strrchr($file, '.');
     $destination = $file . '.audiocroptmp' . $filetype;
     
     $sox_path = '/opt/local/bin/';
-    $command = $sox_path . 'sox "' . $file . '" "' . $destination . '" trim ' . $start . ' ' . $duration;
-    dpm($command);
+    $command = $sox_path . "sox '" . $file . "' '" . $destination . "' trim " . $start . ' ' . $duration;
 
     // Trim the audio file
     $output = array();
