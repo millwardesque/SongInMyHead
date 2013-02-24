@@ -1,0 +1,372 @@
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title>Documentation &middot; Essense Coming Soon Template</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <!-- Le styles -->
+    <link href="css/bootstrap.css" rel="stylesheet">
+    <link href="css/main.css" rel="stylesheet">
+    
+
+    <!-- HTML5 shim, for IE6-8 support of HTML5 elements -->
+    <!--[if lt IE 9]>
+      <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+
+    <!-- Fav and touch icons -->
+    <link rel="apple-touch-icon-precomposed" sizes="144x144" href="../assets/ico/apple-touch-icon-144-precomposed.png">
+    <link rel="apple-touch-icon-precomposed" sizes="114x114" href="../assets/ico/apple-touch-icon-114-precomposed.png">
+      <link rel="apple-touch-icon-precomposed" sizes="72x72" href="../assets/ico/apple-touch-icon-72-precomposed.png">
+                    <link rel="apple-touch-icon-precomposed" href="../assets/ico/apple-touch-icon-57-precomposed.png">
+                                   <link rel="shortcut icon" href="../assets/ico/favicon.png">
+  </head>
+
+  <body>
+
+    <div class="container-narrow">
+
+      <header class="center">
+        <h4 class="muted">Essence - Coming Soon Temlate </br>
+          Documentation v1.0</br>
+          by Matyushenko Nikita @Matyushen</h3>
+      </header>
+
+      <hr>
+
+
+
+      <div class="row-fluid center">
+        <div class="span12">
+          <h1 class="text-success">Thank You!</h1>
+          <p class="lead">I appreciate Your choice! In this documentation you’ll find all information regarding how to adjust this template to your needs. If you have any questions that are beyond the scope of this help file, please feel free to write a support request in comments section on <a href="http://themeforest.net/user/matyushen">Themeforest</a></p>
+        </div>
+      </div>
+
+      <hr>
+
+      <div id="top" class="row-fluid">
+        <div class="span12">
+          <h3>Table of Contents</h3>
+          <ol>
+            <li><a href="#htmlStructure">HTML Structure</a></li>
+            <li><a href="#themes">Themes</a></li>
+            <li><a href="#javascript">JavaScript</a></li>
+            <li><a href="#icons">Social icons</a></li>
+            <li><a href="#credits">Sources and Credits</a></li>
+          </ol>
+        </div>
+      </div>
+
+
+
+      <hr>
+
+
+      <!-- HTML STRUCTURE -->
+      <div id="htmlStructure" class="row-fluid"> 
+        <div class="span12">
+          <h3>HTML Structure <a href="#top"><i class="icon-circle-arrow-up"></i></a></h3>
+          <p>This template is based on Twitter Bootstrap v2.2.2.  It is fully redponsive. You can find detailed documentation about layout <a href="http://twitter.github.com/bootstrap/scaffolding.html#fluidGridSystem">here</a>. </br>
+            Basically, template has only one column, except hidden box, which has two. But you can adjust it to any number of columns you need, from 1 to 12.</p>
+    
+    <p>This is a standart layout with 1 column:</p>
+    
+    <pre>
+&lt;div class="container-narrow"&gt; &lt;!-- Main container --&gt;
+  &lt;header&gt;
+  &lt;/header&gt;
+
+  &lt;div class="row-fluid"&gt; 
+    &lt;div class="span12"&gt; &lt;!-- full width column --&gt;
+
+    &lt;/div&gt;
+  &lt;/div&gt;
+
+  &lt;footer&gt;
+  &lt;/footer&gt;
+
+&lt;/div&gt; &lt;!-- / Main container --&gt;
+    </pre>
+
+    
+
+    <p>If you want 2 equal columns, your layout shoud look like this:</p>
+
+ <pre>
+&lt;div class="container-narrow"&gt; &lt;!-- Main container --&gt;
+  &lt;header&gt;
+  &lt;/header&gt;
+
+  &lt;div class="row-fluid"&gt; 
+    &lt;div class="span6"&gt; &lt;!-- 6 columns - half of the width --&gt;
+
+    &lt;/div&gt;
+
+    &lt;div class="span6"&gt;
+
+    &lt;/div&gt;
+
+  &lt;/div&gt;
+
+  &lt;footer&gt;
+  &lt;/footer&gt;
+
+&lt;/div&gt; &lt;!-- / Main container --&gt;
+    </pre>
+
+    <p>Main container is responsive, by default it has 940px width and 90% max-width. You can adjust this values to your needs</p>
+
+    <pre>
+.container-narrow {
+  margin: 0 auto; 
+  width: 940px; 
+  max-width: 90%;
+}
+    </pre>
+
+
+         
+        </div>
+      </div>
+      <!-- END HTML STRUCTURE -->
+
+
+
+
+      <hr>
+
+
+
+
+      <div id="themes" class="row-fluid"> <!-- THEMES -->
+        <div class="span12">
+          <h3>Themes <a href="#top"><i class="icon-circle-arrow-up"></i></a></h3>
+          <p>Template has two main themes – dark & light. There are separate CSS file for each of them - <span class="text-success">style_light.css</span> and <span class="text-success">style_dark.css</span>. To change background you need to edit body in css file of the theme you’ve chosen. This template has different background options:
+          <p>Only color:</p>
+          <pre>
+   body {
+    ...
+    background: #fff;
+   }
+          </pre>
+
+
+
+          <p>Color with pattern:</p>
+          <pre>
+   body {
+    ...
+    background: #1D113E url(data:image/png;base64,..somecode..);
+   }
+          </pre>
+
+          <p>Note: All patterns included in online preview of this template are described in <span class="text-success">../documentation/patterns.css</span> file. You can find them and few more <a href="http://purelycss.com/data-uri-tileable-transparent-patterns/">here</a> or create your own <a href="http://www.patternify.com/">here</a>.</p>
+
+          <p>Full width image:</p>
+
+          <pre>
+    body {
+      ...
+      background: url(../img/bg1.png) no-repeat center center fixed;
+      -webkit-background-size: cover;
+      -moz-background-size: cover;
+      -o-background-size: cover;
+      background-size: cover;
+    }
+          </pre>
+
+          <p>Note: You can use one of the images included with this template <span class="text-success">(../img/bg)</span> or grab your own. Be sure to use use large image, above 1700 pixels in width to cover almost 95% of the display sizes available today.</p>
+        </div>
+      </div>
+      <!-- END OF THEMES -->
+
+
+
+
+      <hr>
+
+
+
+      <!-- javascript -->
+      <div id="javascript" class="row-fluid">
+        <div class="span12">
+          <h3>JavaScript <a href="#top"><i class="icon-circle-arrow-up"></i></a></h3>
+
+          <p>This template contains following jQuery plugins</p>
+
+    <ol>
+      <li>Header word resize</li>
+      <li>Hidden info box</li>
+      <li>Countdown</li>
+      <li>Subscribe form</li>
+      <li>Twitter feed</li>
+    </ol>
+
+    <p>All JS code could be found in the end of index.php file. Origianl js files are located in <span class="text-success">../js</span> folder.</p>
+    
+    <h4>Header word resize</h4>
+    <p>Since the template is responsive, the header word is also responsive. It’s done using FitText jQuery plugin - <a href="http://fittextjs.com/">fittext.js</a>. This is a simple setup:</p>
+
+    <pre>
+ &lt;script src="js/jquery.fittext.js"&gt;&lt;/script&gt;
+  &lt;script&gt;
+   jQuery("#responsive_headline").fitText(0.6);
+  &lt;/script&gt;
+</pre>
+<p>Text will fluidly resize, by default: Font-size = 1/10th of the element's width. In this particular template it's set to 0.6. You can play with this number to find what fits your content better. For more complex tweaking you should see the documentation of the plugin.</p>
+
+    <h4>Hidden info box</h4>
+    <p>It's a simple jquery code to slide out hidden box.</p>
+    <pre>
+ &lt;script type="text/javascript"&gt;
+  $(document).ready(function () {
+  $("#info").hide();
+
+  $("#info-link").click(function () {
+    $("#info").slideToggle("slow");
+    $(this).toggleClass("active"); return false;
+  });
+  });
+  &lt;/script&gt;
+    </pre>
+    <p>As You can see, #info is the hidden container's ID. And #info-link is the id of the trigger link.</p>
+
+    <h4>Countdown plugin</h4>
+    <p>Countdown here is reality thanks to - <a href="http://keith-wood.name/countdown.html">jQuery Countdown plugin</a> Adjusting is realy simple. All you need is to put your launch date, for exampele the following denotes 10 December, 2013:</p>
+    <pre>
+  &lt;script type="text/javascript" src="js/jquery.countdown.min.js"&gt;&lt;/script&gt;
+   &lt;script type="text/javascript"&gt;
+   $(function () {
+   $('#countdown').countdown({ 
+    until: new Date(2013, 12 - 1, 10)});
+  });
+  &lt;/script&gt;
+    </pre>
+    <p>JavaScript Date constructor expects the year, month, and day as parameters. However, the month ranges from 0 to 11. Thus You must leave -1 on it's place whatever date you pick up. </p>
+
+    <h4>Subscribe form</h4>
+    <p>This doesn't requre any database, since it's made on MailChimp API. All you need is to register a free MailChimp account if you don't have one already. Then just grab your API code and list id from it. You need to put them to <span class="text-success">inc/store-address.php</span>. Also you can edit notification messages in the same file. Make sure that you save this file in plain text, otherwise you'll face an error. For more information about mailchimp API see the official <a href="http://apidocs.mailchimp.com/">documentation</a>.</p>
+
+
+    <h4>Twitter feed plugin</h4>
+    <p>Here I've used jQuery live Twitter feed <a href="http://code.google.com/p/realtime-related-tweets-bar/">plugin</a>.
+      Simply put your username instead of dribbble in <span class="text-success">index.php file</span>. For more tweaks see the documentation of the plugin.</p>
+    <pre>
+  &lt;script type="text/javascript" src="js/jquery.relatedtweets-1.0.min.js"&gt;&lt;/script&gt;
+  &lt;script type="text/javascript"&gt; 
+    $(document).ready(function(){
+      $('#tw').relatedTweets({
+        debug:1
+        ,from_users:'dribbble' // put here your twitter username
+        ,status:1
+        ,realtime:0
+        ,n:20
+        ,show_avatar:0
+        ,show_date:0
+        ,show_author:0
+      });
+    });
+  &lt;/script&gt;
+
+    </pre>
+         
+        </div>
+      </div>
+      <!-- END OF javascript -->
+
+
+
+      <hr>
+
+
+      <!-- ICONS -->
+      <div id="icons" class="row-fluid">
+        <div class="span12">
+          <h3>Social icons <a href="#top"><i class="icon-circle-arrow-up"></i></a></h3>
+          <p>I've included in this template resolution independent social media icons made by me - <a href="http://matyushen.com/simplico/">Simplico</a>. They are in two versions - for light & dark themes. They have hower effect with original color of particular social media on desktop and laptops. But on mobile they appear already with that color for better touch experience. That made using bootstrap's classes <span class="text-success">visible-desktop</span>, <span class="text-success">visible-tablet</span> and <span class="text-success">visible-phone</span>. See <span class="text-success">index.php</span> for comments.</p>
+         
+        </div>
+      </div>
+      <!-- END OF ICONS -->
+
+
+
+      <hr>
+
+
+      <!-- CREDITS -->
+      <div id="credits" class="row-fluid ">
+        <div class="span12">
+          <h3>Sources and Credits <a href="#top"><i class="icon-circle-arrow-up"></i></a></h3>
+          <p>I've used the following resources:</p>
+    
+    <ul>
+      <li>This template use google web fonts <a href="http://www.google.com/webfonts/specimen/Arvo">Arvo</a> and <a href="http://www.google.com/webfonts/specimen/Open+Sans">Open Sans</a></li>
+      <li><a href="http://code.google.com/p/realtime-related-tweets-bar/">jQuery live Twitter feed plugin</a></li>
+      <li>Official MailChimp <a href="http://apidocs.mailchimp.com/">API</a></li>
+      <li><a href="http://keith-wood.name/countdown.html">jQuery Countdown plugin</a></li>
+      <li>jQuery plugin <a href="http://fittextjs.com/">FitText.js</a></li>
+      <li>Transparent patterns by <a href="http://purelycss.com/data-uri-tileable-transparent-patterns/">Purelycss.com</a></li>
+      <li>Pattern creation tool <a href="http://www.patternify.com/">Patternify</a></li>
+      <li><a href="http://www.othericons.com/">Othericons</a></li>
+      <li><a href="http://matyushen.com/simplico/">Simplico</a> - Resolution Independent Social Media Icons.</li>
+      <li>All backgrounds are my work and derived with this template under the same license terms.</li>
+    </ul>
+
+    <hr>
+    
+    <p>Once again, thank you so much for purchasing this theme. As I said at the beginning, I'd be glad to help you if you have any questions relating to this theme. No guarantees, but I'll do my best to assist. If you have a more general question relating to the themes on ThemeForest, you might consider visiting the forums and asking your question in the "Item Discussion" section.</p> 
+    
+    <p><strong>Nikita Matyushenko</strong></p>
+    <p><a href="#top">Go To Table of Contents</a></p>
+
+
+
+
+
+
+         
+        </div>
+      </div>
+      <!-- END OF CREDITS -->
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+      <hr>
+
+      <div class="footer">
+        <p>&copy; <a href="matyushen.com">Matyushen</a> 2013</p>
+      </div>
+
+    </div> <!-- /container -->
+
+  </body>
+</html>

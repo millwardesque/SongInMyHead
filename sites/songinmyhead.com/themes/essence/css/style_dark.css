@@ -1,0 +1,293 @@
+* {margin: 0;padding: 0;}
+html {font-size: 100%;-webkit-text-size-adjust: 100%;-ms-text-size-adjust: 100%;}
+body {
+  font: 100% "Open Sans", "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif;
+  padding-bottom: 20px;
+  -webkit-font-smoothing: antialiased;
+  background: url(../img/bg4.jpg) no-repeat center center fixed;
+  -webkit-background-size: cover;
+  -moz-background-size: cover;
+  -o-background-size: cover;
+  background-size: cover;
+}
+
+input -moz-focus-inner {border: 0;}
+input {border: 0;}
+
+h1, h2, h3, p {color: #3E3E3F;}
+a, a:hover, a:active, a:focus {outline: none; text-decoration: none;}
+a {color: #464CAA;}
+a:hover, a:active, a:focus {color: #6460CD;}
+h1, h2 {font-family:'Arvo', serif;text-align: center;display: inline-block;width: 100%;}
+h1 {font-weight: 900;text-shadow: 3px 3px 0 rgba(153,153,160,0.6);}
+h2 {font-weight: 300;text-shadow: 1px 1px 0 rgba(153,153,160,0.6);}
+p {font-size: 0.8em;padding-top: 10px;}
+footer {font-size: 0.7em;}
+
+
+/* === Responsive settings ================================================================================ */
+
+@media screen and (min-width: 961px) {
+  h2 {font-size: 2em;}
+}
+
+@media screen and (min-width: 641px) and (max-width: 960px) {
+  h2 {font-size: 2em;}
+  #countdown  {font-size: 80%;}
+  #tw, p {font-size: 80%;}
+}
+
+@media screen and (max-width: 640px) {
+  h2 {font-size: 1em;}
+  #countdown  {font-size: 60%;}
+  input {font-size: 70%;}
+  #tw, p {font-size: 70%;}
+}
+
+
+/* === Main containers ================================================================================ */
+
+.container-narrow {margin: 0 auto; width:940px; max-width:90%;}
+.center, footer, header {text-align: center; margin-top: 20px;}
+
+
+/* === Hidden container ================================================================================ */
+
+#info {
+  background: rgba(255,255,255,0.7);
+  color: #3E3E3F;
+  border-bottom: 1px solid #3E3E3F;
+}
+
+.info {padding: 15px;}
+.info p {text-align: justify;}
+address {font-size: 0.8em;padding-top: 10px;}
+
+
+/* === Button to show hidden container & hide it back ================================================================================ */
+
+nav a{
+  background: url(../img/info_dark.svg);
+  display:inline-block; 
+  background-size: 100%; 
+  width:64px; 
+  height:64px;
+  margin-top: 10px;
+}
+
+nav a:hover {background-color: rgba(255,255,255,0.1);}
+
+nav a:active {    
+  -moz-box-shadow: inset 0 3px 8px rgba(0,0,0,.4);
+  -webkit-box-shadow: inset 0 3px 8px rgba(0,0,0,.4);
+  box-shadow: inset 0 3px 8px rgba(0,0,0,.24);
+}
+
+hr {display: block; height: 1px;border: 0; border-top: 1px solid #3E3E3F;}
+
+/* === TWITTER WIDGET ================================================================================ */
+
+#tw {color: #3E3E3F;font-size: 0.8em;}
+#tw ul, li {list-style: none;}
+
+/*  === SUBSCRIBE FORM & BUTTON  ================================================================================ */
+
+-webkit-input-placeholder {color: #fff;}
+-moz-placeholder {color: #fff;}
+-ms-input-placeholder {color: #fff;}
+
+input[type=text] {
+  max-width: 80%;
+  min-width: 40%;
+  padding: 0.7em;
+  background: rgb(62,62,63); /* fallback color */
+  background: rgba(62,62,63,0.7);
+  border: none;
+  color: #fff;
+  -webkit-border-radius: 4px;
+  -moz-border-radius: 4px;
+  border-radius: 4px;
+}
+
+input[type=text]:focus {
+  outline: none;
+  background: rgb(62,62,63); /* fallback color */
+  background: rgba(62,62,63,0.9);
+}
+
+input[type=submit] {
+  margin-top: 10px;
+  width: auto;
+  z-index: 999;
+  padding: 0.7em;
+  display: inline-block;
+  font-weight: bold;
+  text-shadow: 1px 1px rgba(0,0,0,0.2);
+  border: none;
+  -webkit-border-radius: 4px;
+  -moz-border-radius: 4px;
+  border-radius: 4px;
+  color: #fff;
+  background: #93de5a;
+  background: -moz-linear-gradient(top, #93de5a 0%, #76b347 100%);
+  background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#93de5a), color-stop(100%,#76b347));
+  background: -o-linear-gradient(top, #93de5a 0%, #76b347 100%);
+  background: -ms-linear-gradient(top, #93de5a 0%, #76b347 100%);
+  background: linear-gradient(to top, #93de5a 0%, #76b347 100%);
+  filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#93de5a', endColorstr='#76b347',GradientType=0 );
+}
+
+input[type=submit]:hover{
+  cursor: pointer;
+  background: #9ded61;
+  background: -moz-linear-gradient(top, #9ded61 0%, #80c14d 100%);
+  background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#9ded61), color-stop(100%,#80c14d));
+  background: -o-linear-gradient(top, #9ded61 0%, #80c14d 100%);
+  background: -ms-linear-gradient(top, #9ded61 0%, #80c14d 100%);
+  background: linear-gradient(to top, #9ded61 0%, #80c14d 100%);
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#9ded61', endColorstr='#80c14d',GradientType=0);
+}
+
+input[type=submit]:active {
+  -moz-box-shadow:    inset 0 0 6px 2px rgba(84,140,41,0.8);
+  -webkit-box-shadow: inset 0 0 6px 2px rgba(84,140,41,0.8);
+  box-shadow:         inset 0 0 6px 2px rgba(84,140,41,0.8);
+}
+
+input {font-size: 1em;}
+.message {color: #3E3E3F;font-style: italic;}
+
+
+
+
+/* === COUNTDOWN PLUGIN ================================================================================ */
+.hasCountdown {border: none;}
+.countdown_rtl {direction: rtl;}
+.countdown_holding span {color: #3E3E3F;}
+.countdown_row {clear: both;padding: 0px 2px;text-align: center;}
+.countdown_show1 .countdown_section {width: 98%;}
+.countdown_show2 .countdown_section {width: 48%;}
+.countdown_show3 .countdown_section {width: 32.5%;}
+.countdown_show4 .countdown_section {width: 24.5%;}
+.countdown_show5 .countdown_section {width: 19.5%;}
+.countdown_show6 .countdown_section {width: 16.25%;}
+.countdown_show7 .countdown_section {width: 14%;}
+.countdown_section {display: block;float: left;color: #3E3E3F;text-align: center;}
+.countdown_amount {font-size: 200%;}
+.countdown_descr {display: block;width: 10%;}
+
+/* === SOCIAL MEDIA ICONS ================================================================================ */
+
+.social a {
+  display:inline-block;
+  width:32px; 
+  height:32px; 
+  background-size: 100%; 
+}
+
+.social a:active {    
+  -moz-box-shadow: inset 0 3px 8px rgba(0,0,0,0.4);
+  -webkit-box-shadow: inset 0 3px 8px rgba(0,0,0,0.4);
+  box-shadow: inset 0 3px 8px rgba(0,0,0,0.4);
+}
+
+.social a:hover {background-color: rgba(255,255,255,0.1);}
+
+a.facebook            {background-image:url(../img/social/dark/facebook.svg);}
+a.facebook:hover      {background: #3c5a98 url(../img/social/light/facebook.svg);}
+a.twitter             {background-image:url(../img/social/dark/twitter.svg);}
+a.twitter:hover       {background: #2daae1 url(../img/social/light/twitter.svg);}
+a.youtube             {background-image:url(../img/social/dark/youtube.svg);}
+a.youtube:hover       {background: #cc3333 url(../img/social/light/youtube.svg);}
+a.vimeo               {background-image:url(../img/social/dark/vimeo.svg);}
+a.vimeo:hover         {background: #1ab7ea url(../img/social/light/vimeo.svg);}
+a.google              {background-image:url(../img/social/dark/google.svg);}
+a.google:hover        {background: #da2713 url(../img/social/light/google.svg);}
+a.linkedin            {background-image:url(../img/social/dark/linkedin.svg);}
+a.linkedin:hover      {background: #2597de url(../img/social/light/linkedin.svg);}
+a.pinterest           {background-image:url(../img/social/dark/pinterest.svg);}
+a.pinterest:hover     {background: #ca2026 url(../img/social/light/pinterest.svg);}
+a.dribbble            {background-image:url(../img/social/dark/dribbble.svg);}
+a.dribbble:hover      {background: #ea4c89 url(../img/social/light/dribbble.svg);}
+a.deviantart          {background-image:url(../img/social/dark/deviantart.svg);}
+a.deviantart:hover    {background: #4c5e52 url(../img/social/light/deviantart.svg);}
+a.instagram           {background-image:url(../img/social/dark/instagram.svg);}
+a.instagram:hover     {background: #1c5380 url(../img/social/light/instagram.svg);}
+a.blogger             {background-image:url(../img/social/dark/blogspot.svg);}
+a.blogger:hover       {background: #ff6300 url(../img/social/light/blogspot.svg);}
+a.tumblr              {background-image:url(../img/social/dark/tumblr.svg);}
+a.tumblr:hover        {background: #44546b url(../img/social/light/tumblr.svg);}
+a.fivepx              {background-image:url(../img/social/dark/fivepx.svg);}
+a.fivepx:hover        {background: #00aeef url(../img/social/light/fivepx.svg);}
+a.flickr              {background-image:url(../img/social/dark/flickr.svg);}
+a.flickr:hover        {background: #3E3E3F url(../img/social/hover/flickr_hover.svg);}
+a.rss                 {background-image:url(../img/social/dark/rss.svg);}
+a.rss:hover           {background: #E8621D url(../img/social/light/rss.svg);}
+a.mail                {background-image:url(../img/social/dark/mail.svg);}
+a.mail:hover          {background: #3E3E3F url(../img/social/light/mail.svg);}
+a.envato              {background-image:url(../img/social/dark/envato.svg);}
+a.envato:hover        {background: #528036 url(../img/social/light/envato.svg);}
+a.forrst              {background-image:url(../img/social/dark/forrst.svg);}
+a.forrst:hover        {background: #4d6f54 url(../img/social/light/forrst.svg);}
+a.github              {background-image:url(../img/social/dark/github.svg);}
+a.github:hover        {background: #211e14 url(../img/social/light/github.svg);}
+a.spotify             {background-image:url(../img/social/dark/spotify.svg);}
+a.spotify:hover       {background: #74bf43 url(../img/social/light/spotify.svg);}
+a.fancy               {background-image:url(../img/social/dark/fancy.svg);}
+a.fancy:hover         {background: #9FD5FC url(../img/social/light/fancy.svg);}
+a.lastfm              {background-image:url(../img/social/dark/lastfm.svg);}
+a.lastfm:hover        {background: #F73600 url(../img/social/light/lastfm.svg);}
+a.reddit              {background-image:url(../img/social/dark/reddit.svg);}
+a.reddit:hover        {background: #CEE3F8 url(../img/social/hover/reddit_hover.svg);}
+a.behance             {background-image:url(../img/social/dark/behance.svg);}
+a.behance:hover       {background: #0086FF url(../img/social/light/behance.svg);}
+a.stackoverflow       {background-image:url(../img/social/dark/stackoverflow.svg);}
+a.stackoverflow:hover {background: #f47920 url(../img/social/light/stackoverflow.svg);}
+a.soundcloud          {background-image:url(../img/social/dark/soundcloud.svg);}
+a.soundcloud:hover    {background: #FF5C00 url(../img/social/light/soundcloud.svg);}
+a.formspring          {background-image:url(../img/social/dark/formspring.svg);}
+a.formspring:hover    {background: #0076bf url(../img/social/light/formspring.svg);}
+a.stumbleupon         {background-image:url(../img/social/dark/stumbleupon.svg);}
+a.stumbleupon:hover   {background: #ef4e22 url(../img/social/light/stumbleupon.svg);}
+
+
+/* === SOCIAL MEDIA ICONS FOR TABLET & PHONE ================================================================================ */
+
+.social_touch {width: 100%;}
+
+.social_touch a {
+  display:inline-block; 
+  background-size: 100%; 
+  width:32px; 
+  height:32px; 
+  text-decoration:none;
+}
+
+.social_touch a.facebook      {background: #3c5a98   url(../img/social/light/facebook.svg);}
+.social_touch a.twitter       {background: #2daae1   url(../img/social/light/twitter.svg);}
+.social_touch a.youtube       {background: #cc3333   url(../img/social/light/youtube.svg);}
+.social_touch a.vimeo         {background: #1ab7ea   url(../img/social/light/vimeo.svg);}
+.social_touch a.google        {background: #da2713   url(../img/social/light/google.svg);}
+.social_touch a.linkedin      {background: #2597de   url(../img/social/light/linkedin.svg);}
+.social_touch a.pinterest     {background: #ca2026   url(../img/social/light/pinterest.svg);}
+.social_touch a.dribbble      {background: #ea4c89   url(../img/social/light/dribbble.svg);}
+.social_touch a.deviantart    {background: #4c5e52   url(../img/social/light/deviantart.svg);}
+.social_touch a.instagram     {background: #1c5380   url(../img/social/light/instagram.svg);}
+.social_touch a.blogger       {background: #ff6300   url(../img/social/light/blogspot.svg);}
+.social_touch a.tumblr        {background: #44546b   url(../img/social/light/tumblr.svg);}
+.social_touch a.fivepx        {background: #00aeef   url(../img/social/light/fivepx.svg);}
+.social_touch a.rss           {background: #E8621D   url(../img/social/light/rss.svg);}
+.social_touch a.envato        {background: #528036   url(../img/social/light/envato.svg);}
+.social_touch a.forrst        {background: #4d6f54   url(../img/social/light/forrst.svg);}
+.social_touch a.github        {background: #211e14   url(../img/social/light/github.svg);}
+.social_touch a.spotify       {background: #74bf43   url(../img/social/light/spotify.svg);}
+.social_touch a.fancy         {background: #9FD5FC   url(../img/social/light/fancy.svg);}
+.social_touch a.lastfm        {background: #F73600   url(../img/social/light/lastfm.svg);}
+.social_touch a.behance       {background: #0086FF   url(../img/social/light/behance.svg);}
+.social_touch a.stackoverflow {background: #f47920   url(../img/social/light/stackoverflow.svg);}
+.social_touch a.soundcloud    {background: #FF5C00   url(../img/social/light/soundcloud.svg);}
+.social_touch a.formspring    {background: #0076bf   url(../img/social/light/formspring.svg);}
+.social_touch a.stumbleupon   {background: #ef4e22   url(../img/social/light/stumbleupon.svg);}
+.social_touch a.flickr        {background: #fff      url(../img/social/hover/flickr_hover.svg);}
+.social_touch a.mail          {background:           url(../img/social/hover/mail_hover.svg);}
+.social_touch a.reddit        {background: #CEE3F8   url(../img/social/hover/reddit_hover.svg);}

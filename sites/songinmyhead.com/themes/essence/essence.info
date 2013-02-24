@@ -1,0 +1,11 @@
+name = Essence
+description = The Essence ThemeForest theme converted to Drupal.
+core = 7.x
+
+regions[content] = Content
+regions[help] = Help
+regions[page_top] = Page top
+regions[page_bottom] = Page bottom
+
+stylesheets[screen][] = css/style_light.css
+stylesheets[screen][] = css/bootstrap.min.css
