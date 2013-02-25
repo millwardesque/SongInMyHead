@@ -1,0 +1,14 @@
+.region-header {
+  font-size: 2.5em;
+  font-family:'Arvo', serif;
+  text-align: center;
+  width: 100%;
+}
+
+#edit-audio-file-upload-button {
+  display: none;
+}
+
+.view-uploaded-snippets .node-audio-snippet {
+  font-size: 0.5em;
+}
