@@ -438,3 +438,37 @@ function audio_snippet_generate_alternate_formats($fid) {
   }
   return $file_ids;
 }
+
+/**
+ * Implements hook_cron().
+ */
+function audio_snippet_cron() {
+  // Get the nodes for all audio snippets.
+  $results = db_select('node', 'n')
+    ->fields('n', array('nid'))
+    ->condition('type', 'audio_snippet')
+    ->execute();
+
+  $nodes = array();
+  while ($nid = $results->fetchAssoc()) {
+    $nodes[] = node_load($nid['nid']);
+  }
+
+  // Delete any old uncropped nodes
+  $crop_purge_threshold = 60 * 60 * 2;  // In seconds.
+  $current_time = time();
+  $purged_nids = array();
+  foreach ($nodes as $node) {
+    $wrapper = entity_metadata_wrapper('node', $node);
+    if (!$wrapper->field_audio_snippet_cropped->value() &&
+        $current_time - $node->created > $crop_purge_threshold) {
+
+      $purged_nids[] = $node->nid;
+      node_delete($node->nid);     
+    }
+  }
+
+  if (!empty($purged_nids)) {
+    watchdog("cron", t('Deleted the following old, uncropped nodes: @nids', array('@nids' => implode(', ', $purged_nids))));
+  }
+}
