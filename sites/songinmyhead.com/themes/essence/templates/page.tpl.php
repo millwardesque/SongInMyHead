@@ -80,7 +80,7 @@
 
     <header>
       <h1 id="responsive_headline"><?php print l($site_name, '<front>'); ?></h1>
-      <h2><?php print $site_slogan; ?></h2>
+      <h3><?php print $site_slogan; ?></h3>
       <?php if (!empty($page['header'])) print render($page['header']) ?>
     </header>
 
@@ -90,7 +90,7 @@
       <div class="span12">
         <div class="row-fluid">
           <?php if (!$is_front): ?>
-            <h2><?php print $title; ?></h2>
+            <h1><?php print $title; ?></h1>
           <?php endif ?>
 
           <?php if ($show_messages && $messages): ?>
@@ -129,7 +129,7 @@
       </div>
     </div>
 
-        <div class="row-fluid social_touch visible-phone visible-tablet"> <!-- This is social media icons visible only on phones and tablets -->
+    <div class="row-fluid social_touch visible-phone visible-tablet"> <!-- This is social media icons visible only on phones and tablets -->
       <div class="span12 center">
         <a class="facebook" title="facebook" href="#"></a>
         <a class="twitter" title="twitter" href="#"></a>

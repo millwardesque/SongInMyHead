@@ -34,7 +34,8 @@ function audio_snippet_views_default_views() {
   $handler->display->display_options['pager']['options']['offset'] = '0';
   $handler->display->display_options['pager']['options']['id'] = '0';
   $handler->display->display_options['pager']['options']['quantity'] = '9';
-  $handler->display->display_options['style_plugin'] = 'default';
+  $handler->display->display_options['style_plugin'] = 'grid';
+  $handler->display->display_options['style_options']['columns'] = '3';
   $handler->display->display_options['row_plugin'] = 'fields';
   /* Relationship: Content: Audio snippet (field_audio_snippet:fid) */
   $handler->display->display_options['relationships']['field_audio_snippet_fid']['id'] = 'field_audio_snippet_fid';
@@ -170,7 +171,7 @@ function audio_snippet_views_default_views() {
 
   /* Display: Master */
   $handler = $view->new_display('default', 'Master', 'default');
-  $handler->display->display_options['title'] = 'Latest Songs';
+  $handler->display->display_options['title'] = 'Latest Hooks';
   $handler->display->display_options['use_more_always'] = FALSE;
   $handler->display->display_options['access']['type'] = 'perm';
   $handler->display->display_options['cache']['type'] = 'none';

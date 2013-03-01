@@ -1,3 +1,11 @@
+hr {
+  margin: 1.0em 0 0 0;
+}
+
+td {
+  padding: 0.5em;
+}
+
 .region-header {
   font-size: 2.5em;
   font-family:'Arvo', serif;
