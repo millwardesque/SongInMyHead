@@ -108,6 +108,12 @@ function audio_snippet_field_default_fields() {
       'deleted' => '0',
       'description' => 'What makes you love this clip so much?',
       'display' => array(
+        'audio_no_preview' => array(
+          'label' => 'hidden',
+          'settings' => array(),
+          'type' => 'hidden',
+          'weight' => '0',
+        ),
         'default' => array(
           'label' => 'hidden',
           'module' => 'text',
@@ -180,6 +186,12 @@ function audio_snippet_field_default_fields() {
       'deleted' => '0',
       'description' => '',
       'display' => array(
+        'audio_no_preview' => array(
+          'label' => 'hidden',
+          'settings' => array(),
+          'type' => 'hidden',
+          'weight' => '2',
+        ),
         'default' => array(
           'label' => 'hidden',
           'module' => 'html5_media',
@@ -205,8 +217,8 @@ function audio_snippet_field_default_fields() {
             'debug' => 0,
             'height' => '400px',
             'loop' => 0,
-            'preload' => 1,
-            'sources' => 0,
+            'preload' => 0,
+            'sources' => 1,
             'template' => 'jqueryui',
             'volume' => '80',
             'width' => '100%',
@@ -274,6 +286,12 @@ function audio_snippet_field_default_fields() {
       'deleted' => '0',
       'description' => '',
       'display' => array(
+        'audio_no_preview' => array(
+          'label' => 'hidden',
+          'settings' => array(),
+          'type' => 'hidden',
+          'weight' => '1',
+        ),
         'default' => array(
           'label' => 'inline',
           'settings' => array(),

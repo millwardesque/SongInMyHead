@@ -90,17 +90,23 @@ function audio_crop_cropper_form($form, $form_state, $node) {
     drupal_add_js(array('audio_crop' => array('max_duration' => variable_get('audio_crop_max_duration', 0))), 'setting');
 
     $form['wrapper']['start'] = array(
-      '#type' => 'textfield',
+      '#type' => 'hidden',
       '#title' => t('Start'),
       '#description' => t('The starting point of the snippet.'),
       '#default_value' => !empty($form_state['values']['start']) ? $form_state['values']['start'] : 0,
+      '#attributes' => array('class' => array(
+        'audio-crop-start'
+      )),
     );
 
     $form['wrapper']['end'] = array(
-      '#type' => 'textfield',
+      '#type' => 'hidden',
       '#title' => t('End'),
       '#description' => t('The ending point of the snippet.'),
       '#default_value' => !empty($form_state['values']['end']) ? $form_state['values']['end'] : $metadata['playtime_seconds'],
+      '#attributes' => array('class' => array(
+        'audio-crop-end'
+      )),
     );
 
     $form['wrapper']['crop-range'] = array(

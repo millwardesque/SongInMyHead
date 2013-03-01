@@ -3,8 +3,8 @@
   Drupal.behaviors.audio_crop = {
     attach: function(context, settings) {
       var cropper = $("#audio-cropper", context); // Cropper element.
-      var start = $("#edit-start", context);      // Slider start element.
-      var end = $("#edit-end", context);          // Slider end element.
+      var start = $(".audio-crop-start", context);      // Slider start element.
+      var end = $(".audio-crop-end", context);          // Slider end element.
       var max_duration = parseInt(settings.audio_crop.max_duration, 10);  // Maximum duration of a snippet.
       if (max_duration < 1) {
         max_duration = false;

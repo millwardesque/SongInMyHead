@@ -18,16 +18,18 @@
     <div id="info" class="row-fluid">
       <div class="span12">
         <div class="row-fluid">
-          <div class="span<?php print ($has_sidebar ? '8' : '12'); ?> info">
-            <?php if ($show_messages && $messages): ?>
+          <?php if ($show_messages && $messages): ?>
             <div id='console'><div class='limiter clearfix'><?php print $messages; ?></div></div>
-            <?php endif; ?>
-            <?php if (!empty($page['help'])) print render($page['help']) ?>
+          <?php endif; ?>
+          <?php if (!empty($page['help'])) print render($page['help']) ?>
+        </div>
+        <div class="row-fluid">
+          <div class="span<?php print ($has_sidebar ? '6' : '12'); ?> info">
             <?php if (!empty($page['content'])) print render($page['content']) ?>
           </div>
           
           <?php if ($has_sidebar): ?>
-          <div class="span4 info">
+          <div class="span6 info">
             <?php if (!empty($page['sidebar'])) print render($page['sidebar']) ?>
           </div>
           <?php endif ?>

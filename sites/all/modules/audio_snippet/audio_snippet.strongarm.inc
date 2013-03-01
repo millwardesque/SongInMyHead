@@ -95,10 +95,10 @@ function audio_snippet_strongarm() {
     'extra_fields' => array(
       'form' => array(
         'filename' => array(
-          'weight' => '-10',
+          'weight' => '0',
         ),
         'preview' => array(
-          'weight' => '-5',
+          'weight' => '1',
         ),
       ),
       'display' => array(),
@@ -130,6 +130,12 @@ function audio_snippet_strongarm() {
       'token' => array(
         'custom_settings' => FALSE,
       ),
+      'audio_no_preview' => array(
+        'custom_settings' => TRUE,
+      ),
+      'revision' => array(
+        'custom_settings' => FALSE,
+      ),
     ),
     'extra_fields' => array(
       'form' => array(
@@ -141,6 +147,13 @@ function audio_snippet_strongarm() {
     ),
   );
   $export['field_bundle_settings_node__audio_snippet'] = $strongarm;
+
+  $strongarm = new stdClass();
+  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
+  $strongarm->api_version = 1;
+  $strongarm->name = 'max_duration';
+  $strongarm->value = '15';
+  $export['max_duration'] = $strongarm;
 
   $strongarm = new stdClass();
   $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */

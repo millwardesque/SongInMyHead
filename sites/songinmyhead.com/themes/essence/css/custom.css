@@ -12,3 +12,62 @@
 .view-uploaded-snippets .node-audio-snippet {
   font-size: 0.5em;
 }
+
+/**
+ * Upload form
+ */
+input[type=file] {
+  margin-top: 10px;
+  width: auto;
+  z-index: 999;
+  padding: 0.7em;
+  display: inline-block;
+  font-weight: bold;
+  text-shadow: 1px 1px rgba(0,0,0,0.2);
+  border: none;
+  -webkit-border-radius: 4px;
+  -moz-border-radius: 4px;
+  border-radius: 4px;
+  color: #fff;
+  background: #93de5a;
+  background: -moz-linear-gradient(top, #93de5a 0%, #76b347 100%);
+  background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#93de5a), color-stop(100%,#76b347));
+  background: -o-linear-gradient(top, #93de5a 0%, #76b347 100%);
+  background: -ms-linear-gradient(top, #93de5a 0%, #76b347 100%);
+  background: linear-gradient(to top, #93de5a 0%, #76b347 100%);
+  filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#93de5a', endColorstr='#76b347',GradientType=0 );
+}
+
+input[type=file]:hover{
+  cursor: pointer;
+  background: #9ded61;
+  background: -moz-linear-gradient(top, #9ded61 0%, #80c14d 100%);
+  background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#9ded61), color-stop(100%,#80c14d));
+  background: -o-linear-gradient(top, #9ded61 0%, #80c14d 100%);
+  background: -ms-linear-gradient(top, #9ded61 0%, #80c14d 100%);
+  background: linear-gradient(to top, #9ded61 0%, #80c14d 100%);
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#9ded61', endColorstr='#80c14d',GradientType=0);
+}
+
+input[type=file]:active {
+  -moz-box-shadow:    inset 0 0 6px 2px rgba(84,140,41,0.8);
+  -webkit-box-shadow: inset 0 0 6px 2px rgba(84,140,41,0.8);
+  box-shadow:         inset 0 0 6px 2px rgba(84,140,41,0.8);
+}
+
+/**
+ * Hide the submit button initially
+ */
+#audio-snippet-create-form input[type=submit] {
+  display:none;
+}
+
+/**
+ * Comments
+ */
+.comment-form {
+  display: none;
+}
+.comment-form .form-required {
+  display:none;
+}

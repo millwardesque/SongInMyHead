@@ -27,6 +27,109 @@ function audio_snippet_menu() {
 }
 
 /**
+ * Implements hook_node_load().
+ */
+function audio_snippet_node_load($nodes, $types) {
+  foreach ($nodes as $node) {
+    if ($node->type == 'audio_snippet') {
+      // Fetch the audio snippet metadata from the file entity and stick it here for reference later.
+      $wrapper = entity_metadata_wrapper('node', $node);
+      $file = $wrapper->field_audio_snippet->value();
+      if ($file) {
+        $file = entity_load('file', array($file[0]['fid']));
+        $wrapper = entity_metadata_wrapper('file', reset($file)->fid);
+        $node->title_tid = $wrapper->field_audio_title->value()->tid;
+        $node->album_tid = $wrapper->field_audio_album->value()->tid;
+        $node->artist_tid = $wrapper->field_audio_artist->value()->tid;
+      }
+    }
+  }
+}
+
+/**
+ * Implements hook_block_info().
+ */
+function audio_snippet_block_info() {
+  $blocks = array();
+
+  
+  $blocks['recent_by_artist'] = array(
+    'info' => t('Recent snippets by this artist'),
+    'cache' => DRUPAL_NO_CACHE,
+  );
+
+  $blocks['recent_by_title'] = array(
+    'info' => t('Recent snippets from this song'),
+    'cache' => DRUPAL_NO_CACHE,
+  );
+
+  $blocks['recent_by_album'] = array(
+    'info' => t('Recent snippets from this album'),
+    'cache' => DRUPAL_NO_CACHE,
+  );
+
+  return $blocks;
+}
+
+/**
+ * Implements hook_block_view().
+ */
+function audio_snippet_block_view($delta = '') {
+  $output = array(
+    'subject' => 'Unknown delta',
+    'content' => array('#markup' => '<p>' . t('Unknown delta') . '</p>'),
+  );
+
+  switch ($delta) {
+    case 'recent_by_artist':
+      if ($node = menu_get_object()) {
+        if ($node->type != 'audio_snippet') {
+          drupal_set_message($delta . ' block not used on an audio-snippet page.', 'error'); 
+        }
+
+        $output['subject'] = t('More from this artist');
+        $output['content'] = views_embed_view('related_snippets', 'related_by_artist', $node->nid, $node->artist_tid);
+      }
+      else {
+        drupal_set_message($delta . ' block not used on an audio-snippet page.', 'error');
+      }
+      break;
+
+    case 'recent_by_title':
+      if ($node = menu_get_object()) {
+        if ($node->type != 'audio_snippet') {
+          drupal_set_message($delta . ' block not used on an audio-snippet page.', 'error'); 
+        }
+
+        $output['subject'] = t('More from this song');
+        $output['content'] = views_embed_view('related_snippets', 'related_by_title', $node->nid, $node->artist_tid, $node->title_tid);
+      }
+      else {
+        drupal_set_message($delta . ' block not used on an audio-snippet page.', 'error');
+      }
+      break;
+
+    case 'recent_by_album':
+      if ($node = menu_get_object()) {
+        if ($node->type != 'audio_snippet') {
+          drupal_set_message($delta . ' block not used on an audio-snippet page.', 'error'); 
+        }
+
+        $output['subject'] = t('More from this album');
+        $output['content'] = views_embed_view('related_snippets', 'related_by_album', $node->nid, $node->artist_tid, $node->album_tid);
+      }
+      else {
+        drupal_set_message($delta . ' block not used on an audio-snippet page.', 'error');
+      }
+      break;
+    default:
+      break;
+  }
+
+  return $output;
+}
+
+/**
  * Implements hook_node_view().
  */
 function audio_snippet_node_view($node, $view_mode, $langcode) {
@@ -151,52 +254,123 @@ function audio_snippet_node_presave($node) {
     return;
   }
 
-  // Process the audio files to extract their titles.
-  // Only the last file's title will be used for the node title.
+  // Process the audio files to extract their metadata. Only the last file's metadata will be used.
   $audio_fields = field_get_items('node', $node, 'field_audio_snippet');
   foreach ($audio_fields as $audio_field) {
     $file = file_load($audio_field['fid']);
-    if (!empty($file->uri)) {
-      $metadata_title = audio_snippet_build_node_title_from_metadata($file->uri);
-      $node->title = $metadata_title ? $metadata_title : AUDIO_SNIPPET_DEFAULT_TITLE;
+    if (!empty($file)) {
+      // Set the node title.
+      $node->title = audio_snippet_build_node_title_from_file($file);
     }
   }
 }
 
 /**
+ * Implements hook_file_presave().
+ */
+function audio_snippet_file_presave($file_entity) {
+  if (!empty($file_entity->type) && $file_entity->type == 'audio' && $file_entity->uri && getid3_load()) {
+    $file_wrapper = entity_metadata_wrapper('file', $file_entity);
+
+    // Get the metadata
+    $filepath = drupal_realpath($file_entity->uri);
+    $metadata = getid3_analyze($filepath);
+
+    // Process ID3 tags
+    if (!empty($metadata['tags_html']['id3v2']) || 
+        !empty($metadata['tags_html']['id3v1'])) {
+      $tags = !empty($metadata['tags_html']['id3v2']) ? $metadata['tags_html']['id3v2'] : $metadata['tags_html']['id3v1'];
+
+      // Save the title.
+      if (isset($tags['title'])) {
+        $tid = _audio_snippet_get_taxonomy_term_id(reset($tags['title']), 'titles');
+        if (FALSE !== $tid) {
+          $file_wrapper->field_audio_title->set($tid);
+        }
+      }
+      if (isset($tags['artist'])) {
+        $tid = _audio_snippet_get_taxonomy_term_id(reset($tags['artist']), 'artists');
+        if (FALSE !== $tid) {
+          $file_wrapper->field_audio_artist->set($tid);
+        }
+      }
+      if (isset($tags['album'])) {
+        $tid = _audio_snippet_get_taxonomy_term_id(reset($tags['album']), 'albums');
+        if (FALSE !== $tid) {
+          $file_wrapper->field_audio_album->set($tid);
+        }
+      }
+    }
+  }
+}
+
+/**
+ * Gets a taxonomy term ID from the database.  If a term with the given name doesn't exist, it's created.
+ * 
+ * @param $term_name
+ *  The term name.
+ * @param $vocabulary
+ *  The vocabulary name.
+ *
+ * @return The term ID of the term, or FALSE if no vocabulary was found.
+ */
+function _audio_snippet_get_taxonomy_term_id($term_name, $vocabulary) {
+  $term_name = trim($term_name);
+  if (empty($term_name) || !is_string($term_name)) {
+    return FALSE;
+  }
+
+  // Get the vocabulary ID.
+  $vid = db_select('taxonomy_vocabulary', 't')
+    ->fields('t', array('vid'))
+    ->condition('machine_name', $vocabulary)
+    ->execute()
+    ->fetchField();
+  if (FALSE === $vid) {
+    return FALSE;
+  }
+
+  // Look for the taxonomy term.
+  $tid = db_select('taxonomy_term_data', 't')
+    ->fields('t')
+    ->condition('vid', $vid)
+    ->condition('name', $term_name, 'LIKE')  // LIKE is used for case-insensitivity
+    ->execute()
+    ->fetchField();
+
+  // If there's no term in the DB already, insert a new one.
+  if (FALSE === $tid) {
+    $term = new StdClass();
+    $term->name = $term_name;
+    $term->vid = $vid;
+    if (FALSE === taxonomy_term_save($term)) {
+      return FALSE;
+    }
+    $tid = $term->tid;
+  }
+
+  return $tid;
+}
+
+/**
  * Builds the title of a node from an audio file's metadata.
  *
- * @param $uri
- *  The Drupal URI to the audio file.
+ * @param $file
+ *  The file entity.
  *
  * @return A string containing the suggested title of a node, or FALSE if none is recognized.
  */
-function audio_snippet_build_node_title_from_metadata($uri) {
-  $title = FALSE; // The metadata's title.
+function audio_snippet_build_node_title_from_file($file) {
+  $node_title = AUDIO_SNIPPET_DEFAULT_TITLE; // The title.
 
-  if ($uri && getid3_load()) {
-    // Get the metadata info.
-    $file = drupal_realpath($uri);
-    $metadata = getid3_analyze($file);
-
-    // Build the title.
-    if (!empty($metadata['tags_html']['id3v2'])) {
-      $tags = $metadata['tags_html']['id3v2'];
-
-      $song_title = isset($tags['title']) ? reset($tags['title']) : AUDIO_SNIPPET_DEFAULT_TITLE;
-      $song_artist = isset($tags['artist']) ? reset($tags['artist']) : AUDIO_SNIPPET_DEFAULT_ARTIST;
-      $title = $song_artist . ' - ' . $song_title;
-    }
-    else if (!empty($metadata['tags_html']['id3v1'])) {
-      $tags = $metadata['tags_html']['id3v1'];
-
-      $song_title = isset($tags['title']) ? reset($tags['title']) : AUDIO_SNIPPET_DEFAULT_TITLE;
-      $song_artist = isset($tags['artist']) ? reset($tags['artist']) : AUDIO_SNIPPET_DEFAULT_ARTIST;
-      $title = $song_artist . ' - ' . $song_title;
-    }
+  if ($file) {
+    $file_wrapper = entity_metadata_wrapper('file', $file);
+    $title = $file_wrapper->field_audio_title->value()->name; // Get the existing title.
+    $artist = $file_wrapper->field_audio_artist->value()->name; // Get the existing artist.
+    $node_title = $artist . ' - ' . $title;
   }
 
-  return $title;
+  return $node_title;
 }
 
 /**
