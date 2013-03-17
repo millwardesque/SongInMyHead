@@ -34,35 +34,11 @@ function audio_snippet_context_default_contexts() {
   $context->reactions = array(
     'block' => array(
       'blocks' => array(
-        'shorten-shorten_short' => array(
-          'module' => 'shorten',
-          'delta' => 'shorten_short',
-          'region' => 'content',
-          'weight' => '-9',
-        ),
         'service_links-service_links' => array(
           'module' => 'service_links',
           'delta' => 'service_links',
           'region' => 'content',
-          'weight' => '-8',
-        ),
-        'boxes-add_another_hook' => array(
-          'module' => 'boxes',
-          'delta' => 'add_another_hook',
-          'region' => 'content',
-          'weight' => '-7',
-        ),
-        'audio_snippet-recent_by_title' => array(
-          'module' => 'audio_snippet',
-          'delta' => 'recent_by_title',
-          'region' => 'content',
-          'weight' => '-6',
-        ),
-        'audio_snippet-recent_by_artist' => array(
-          'module' => 'audio_snippet',
-          'delta' => 'recent_by_artist',
-          'region' => 'content',
-          'weight' => '-5',
+          'weight' => '-22',
         ),
       ),
     ),

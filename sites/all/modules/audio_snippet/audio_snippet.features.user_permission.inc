@@ -23,7 +23,7 @@ function audio_snippet_user_default_permissions() {
   $permissions['create audio_snippet content'] = array(
     'name' => 'create audio_snippet content',
     'roles' => array(
-      0 => 'anonymous user',
+      0 => 'administrator',
     ),
     'module' => 'node',
   );
@@ -41,28 +41,36 @@ function audio_snippet_user_default_permissions() {
   // Exported permission: delete any audio_snippet content.
   $permissions['delete any audio_snippet content'] = array(
     'name' => 'delete any audio_snippet content',
-    'roles' => array(),
+    'roles' => array(
+      0 => 'administrator',
+    ),
     'module' => 'node',
   );
 
   // Exported permission: delete own audio_snippet content.
   $permissions['delete own audio_snippet content'] = array(
     'name' => 'delete own audio_snippet content',
-    'roles' => array(),
+    'roles' => array(
+      0 => 'administrator',
+    ),
     'module' => 'node',
   );
 
   // Exported permission: edit any audio_snippet content.
   $permissions['edit any audio_snippet content'] = array(
     'name' => 'edit any audio_snippet content',
-    'roles' => array(),
+    'roles' => array(
+      0 => 'administrator',
+    ),
     'module' => 'node',
   );
 
   // Exported permission: edit own audio_snippet content.
   $permissions['edit own audio_snippet content'] = array(
     'name' => 'edit own audio_snippet content',
-    'roles' => array(),
+    'roles' => array(
+      0 => 'administrator',
+    ),
     'module' => 'node',
   );
 
