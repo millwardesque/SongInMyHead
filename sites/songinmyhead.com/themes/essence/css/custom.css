@@ -69,13 +69,3 @@ input[type=file]:active {
 #audio-snippet-create-form input[type=submit] {
   display:none;
 }
-
-/**
- * Comments
- */
-.comment-form {
-  display: none;
-}
-.comment-form .form-required {
-  display:none;
-}

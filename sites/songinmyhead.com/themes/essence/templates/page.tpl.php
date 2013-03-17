@@ -119,6 +119,7 @@
       </div>
     </div>
 
+    <?php if (!empty($social_is_ready)): // @ToDo Enable when there are social media accounts. ?>
     <div class="row-fluid social visible-desktop"> <!-- This is social media icons visible only on desk -->
       <div class="span12 center">
         <a class="facebook" title="facebook" href="#"></a>
@@ -138,6 +139,7 @@
         <a class="mail" title="mail" href="#"></a>                  
       </div>
     </div>
+    <?php endif; ?>
 
     <footer>
       <?php if (!empty($page['footer'])) print render($page['footer']) ?>

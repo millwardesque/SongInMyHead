@@ -142,14 +142,16 @@ function audio_crop_cropper_form_submit($form, $form_state) {
     $file = drupal_realpath($audio_field['uri']);
 
     $filetype = strrchr($file, '.');
-    $destination = $file . '.audiocroptmp' . $filetype;
+    $destination = $file . '.actmp' . $filetype;
     
-    $sox_path = '/opt/local/bin/';
+    $sox_path = '/usr/local/bin/';  // @DEBUG. Used to get around OSX/php being dumb about paths.
     $command = $sox_path . "sox '" . $file . "' '" . $destination . "' trim " . $start . ' ' . $duration;
 
     // Trim the audio file
     $output = array();
-    exec($command, $output);
+    $result = '';
+    exec($command, $output, $result);
+    dpm(array($command, $output, $result));
 
     // @ToDo Check for errors
     

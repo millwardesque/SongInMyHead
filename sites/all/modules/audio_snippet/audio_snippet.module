@@ -10,7 +10,7 @@ define('AUDIO_SNIPPET_DEFAULT_TITLE', '<Untitled audio snippet>');
 define('AUDIO_SNIPPET_DEFAULT_ARTIST', '<Unknown artist>');
 
 /**
- * Implements hook_men().
+ * Implements hook_menu().
  */
 function audio_snippet_menu() {
   $items = array();
@@ -411,9 +411,11 @@ function audio_snippet_generate_alternate_formats($fid) {
           $original_filename = drupal_realpath($file->uri);          
           $destination = drupal_realpath($new_file->uri);
 
-          $sox_path = '/opt/local/bin/';
+          $sox_path = '/usr/local/bin/';  // @DEBUG. Used to get around OSX/php being dumb about paths.
           $command = $sox_path . "sox '" . $original_filename . "' '" . $destination . "'";
-          exec($command);
+          $output = array();
+          $result = '';
+          exec($command, $output, $result);
 
           // @TODO Check for Sox error
 
