@@ -144,7 +144,7 @@ function audio_crop_cropper_form_submit($form, $form_state) {
     $filetype = strrchr($file, '.');
     $destination = $file . '.actmp' . $filetype;
     
-    $sox_path = '/usr/local/bin/';  // @DEBUG. Used to get around OSX/php being dumb about paths.
+    $sox_path = '/usr/bin/';  // @DEBUG. Used to get around OSX/php being dumb about paths.
     $command = $sox_path . "sox '" . $file . "' '" . $destination . "' trim " . $start . ' ' . $duration;
 
     // Trim the audio file

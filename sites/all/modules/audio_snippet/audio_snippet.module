@@ -172,7 +172,7 @@ function audio_snippet_create_form($form, &$form_state, $node = null) {
   $form['audio_snippet_container']['audio_file'] = array(
     '#type' => 'managed_file',
     '#title' => 'Audio file',
-    '#upload_validators' => array("file_validate_extensions" => array("mp3")),
+    '#upload_validators' => array("file_validate_extensions" => array("mp3 mp4 m4a")),
     '#upload_location' => 'public://audio_snippets/', 
     '#required' => TRUE,
   );
@@ -411,7 +411,7 @@ function audio_snippet_generate_alternate_formats($fid) {
           $original_filename = drupal_realpath($file->uri);          
           $destination = drupal_realpath($new_file->uri);
 
-          $sox_path = '/usr/local/bin/';  // @DEBUG. Used to get around OSX/php being dumb about paths.
+          $sox_path = '/usr/bin/';  // @DEBUG. Used to get around OSX/php being dumb about paths.
           $command = $sox_path . "sox '" . $original_filename . "' '" . $destination . "'";
           $output = array();
           $result = '';
